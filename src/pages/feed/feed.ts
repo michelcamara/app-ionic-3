@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { MooviesProvider } from '../../providers/moovies/moovies';
+import { FilmeDetalhesPage } from '../filme-detalhes/filme-detalhes';
 
 /**
  * Generated class for the FeedPage page.
@@ -28,26 +29,85 @@ export class FeedPage {
   }
   
   public lista_filmes = new Array<any>();
+  public page=1;
 
   public nome_usuario:String="Michel Câmara - code"  
-
+  public loader;
+  public refresher;
+  public isRefreshing: boolean = false;
+  public infiniteScroll;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    private movieProvider: MooviesProvider) {
+    private movieProvider: MooviesProvider,
+    public loadingCtrl: LoadingController) {
   }
 
-  ionViewDidLoad() {
-    this.movieProvider.getLastestMovies().subscribe(
+  abrirDetalhes(filme){
+    console.log(filme);
+    this.navCtrl.push(FilmeDetalhesPage, {id: filme.id});
+  }
+  
+  abreCarregando() {
+    this.loader = this.loadingCtrl.create({
+      content: "Carregando...",
+      //duration: 3000
+    });
+    this.loader.present();
+  }
+
+  fechaCarregando(){
+    this.loader.dismiss();
+  }
+
+  doRefresh(refresher) {
+    this.refresher = refresher;
+    this.isRefreshing = true;
+    this.carregarFilmes();
+  }
+
+  ionViewDidEnter() {
+    this.carregarFilmes();
+  }
+
+  doInfinite(infiniteScroll) {
+    /*setTimeout(() => {
+      for (let i = 0; i < 30; i++) {
+        this.items.push( this.items.length );
+      }
+      console.log('Async operation has ended');
+      infiniteScroll.complete();
+    }, 500);*/
+    this.page++;
+    this.infiniteScroll=infiniteScroll;
+    this.carregarFilmes(true);
+    //infiniteScroll.complete();
+  }
+
+  carregarFilmes(newPage: boolean = false){
+    this.abreCarregando();
+    this.movieProvider.getLastestMovies(this.page).subscribe(
       data=>{
-        const response =(data as any);
         const obj_retorno = (data as any);
-        this.lista_filmes = obj_retorno.results;
-        console.log(obj_retorno);
+        if (newPage){
+          this.lista_filmes = this.lista_filmes.concat(obj_retorno.results);
+          this.infiniteScroll.complete();
+        }else{
+          this.lista_filmes = obj_retorno.results;
+        }
+        this.fechaCarregando();
+        if(this.isRefreshing){
+          this.refresher.complete();
+          this.isRefreshing = false;
+        }
       }, error=>{
-        console.log(error)
+        console.log(error);
+        this.fechaCarregando();
+        if(this.isRefreshing){
+          this.refresher.complete();
+          this.isRefreshing = false;
+        }
       }
     )
   }
-
 }

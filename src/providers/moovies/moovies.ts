@@ -14,10 +14,12 @@ export class MooviesProvider {
     console.log('Hello MooviesProvider Provider');
   }
 
-  getLastestMovies(){
-    return this.http.get(this.apiBasePath + "/movie/popular?api_key=" + this.getApiKey());
+  getLastestMovies(page = 1){
+    return this.http.get(this.apiBasePath + '/movie/popular?page='+page+'&api_key=' + this.getApiKey());
   }
-
+  getMovieDetails(filmeId){
+    return this.http.get(this.apiBasePath + '/movie/'+filmeId+'?api_key=' + this.getApiKey());
+  }
   getApiKey(): string{
     return "d9fd1d52587a05e9d4dcb4bf981d0471"
   }
