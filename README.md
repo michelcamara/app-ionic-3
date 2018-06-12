@@ -29,3 +29,20 @@ O que foi aprendido até aqui:
 - Fluxo de navegação;
 - CORS;
 - plugin nativo de câmera.
+
+Sobre o app desenvolvido:
+O aplicativo desenvolvido lista filmes populares através de uma API do site https://www.themoviedb.org/, usa local storage, está estruturado para Android, mas nativamente ele rodará no seu browser caso queira testar com mais agilidade.
+
+Como testar:
+- Instale o NodeJS no seu computador;
+- Instale NPM;
+- Execute o comando "npm install -g ionic"
+- Acesse a pasta onde está o arquivo através do CMD(Prompt Comand), por exemplo, C:\app-ionic-3\myApp, dentro da pasta execute o comando: npm install -g ionic.
+- Logo em seguida ele irá fazer o build e abrir o browser que você definiu como padrão.
+
+Quaisquer dúvida:
+https://ionicframework.com/getting-started
+
+Obrigado por ter lido até aqui! :)
+
+michelvictor16@gmail.com
