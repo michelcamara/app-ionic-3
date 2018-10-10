@@ -37,7 +37,7 @@ Como testar:
 - Instale o NodeJS no seu computador;
 - Instale NPM;
 - Execute o comando "npm install -g ionic"
-- Acesse a pasta onde está o arquivo através do CMD(Prompt Comand), por exemplo, C:\app-ionic-3\myApp, dentro da pasta execute o comando: npm install -g ionic.
+- Acesse a pasta onde está o arquivo através do CMD(Prompt Comand), por exemplo, C:\app-ionic-3\myApp, dentro da pasta execute o comando: ionic serve.
 - Logo em seguida ele irá fazer o build e abrir o browser que você definiu como padrão.
 
 Quaisquer dúvida:
